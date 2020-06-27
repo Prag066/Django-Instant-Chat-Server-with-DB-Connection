@@ -34,5 +34,6 @@ class Person(models.Model):
 class Message(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
-    message = models.TextField()
+    message = models.TextField(blank=True,null=True)
+    image_base64 = models.TextField(blank=True,null=True)
     timestamp = models.DateTimeField(auto_now_add=True)

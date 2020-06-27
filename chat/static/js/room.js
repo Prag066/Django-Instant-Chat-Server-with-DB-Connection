@@ -31,20 +31,42 @@ chatSocket.onmessage = function(e) {
     else{
         selectClass = "incomingMsg";
     }
+
     var d=document.getElementById('chat-data');
-    d.innerHTML +=  '<div class="row '+ selectClass+' ">'+
-                        '<div class="col-sm-12">'+
-                            '<div class="userName">'+
-                                data.uname+
+        if (data.message){
+        d.innerHTML +=  '<div class="row '+ selectClass+' ">'+
+                            '<div class="col-sm-12">'+
+                                '<div class="userName">'+
+                                    data.uname+
+                                '</div>'+
                             '</div>'+
-                        '</div>'+
-                        '<div class="col-sm-12">'+
-                        '<div class="userMsg">'+
-                        data.message;
-                        +'</div>'+
-                        '</div>'+
+
+                            '<div class="col-sm-12">'+
+                                '<div class="userMsg">'+
+                                    data.message;
+                                +'</div>'+
+                            '</div>'+
                         '</div>';
+    }
+    else if(data.image){
+        d.innerHTML +=  '<div class="row '+ selectClass+' ">'+
+                            '<div class="col-sm-12">'+
+                                '<div class="userName">'+
+                                    data.uname+
+                                '</div>'+
+                            '</div>'+
+
+                            '<div class="col-sm-12">'+
+                                '<div class="userMsg">'+
+                                    '<img src="'+data.image+'" height=200px width=280px>';
+                                +'</div>'+
+                            '</div>'+
+                        '</div>';
+    };
+
+
 };
+
 
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
@@ -77,14 +99,70 @@ function submitMsg(){
 
     const usernameInputDom = document.querySelector('#uname');
     const uname = usernameInputDom.value;
+
+    var fileReader = new FileReader();
+
+    var filesSelected = document.getElementById("inputFileToLoad").files;
     if((messageInputDom.value).trim().length != 0){
+
+            chatSocket.send(JSON.stringify({
+                'image': '',
+                'message': message,
+                'uname' : uname
+                }));
+            messageInputDom.value = '';
+        }
+        else if(filesSelected.length > 0){
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function(fileLoadedEvent){
+            var srcData = fileLoadedEvent.target.result;
+
         chatSocket.send(JSON.stringify({
-        'message': message,
-        'uname' : uname
-        }));
-        messageInputDom.value = '';
+            'image': srcData,
+            'message': '',
+            'uname' : uname
+            }));
+                document.getElementById('inputFileToLoad').innerHTML = '';
+        }
+        fileReader.readAsDataURL(fileToLoad);
+    }
+
+
+
+//        chatSocket.send(JSON.stringify({
+//        'message': message,
+//        'uname' : uname
+//        }));
+//        messageInputDom.value = '';
 //        $('.emojionearea-editor img').remove();
 
-    }
+//    }
 }
+
+//function encodeImageAsUrl(){
+//    const messageInputDom = document.querySelector('#chat-message-input');
+//    const message = messageInputDom.value;
+//
+//    const usernameInputDom = document.querySelector('#uname');
+//    const uname = usernameInputDom.value;
+//
+//    var filesSelected = document.getElementById("inputFileToLoad").files;
+//    if(filesSelected.length > 0){
+//        var fileToLoad = filesSelected[0];
+//        var fileReader = new FileReader();
+//        fileReader.onload = function(fileLoadedEvent){
+//            var srcData = fileLoadedEvent.target.result;
+////            console.log('src',srcData);
+//
+//        chatSocket.send(JSON.stringify({
+//            'image': srcData ,
+//            'message': '',
+//            'uname' : uname
+//            }));
+//        }
+//    }
+//    fileReader.readAsDataURL(fileToLoad);
+//}
 

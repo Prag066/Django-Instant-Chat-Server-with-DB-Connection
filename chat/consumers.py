@@ -34,12 +34,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         message = data['message']
         uname = data['uname']
-        self.create_chat_message = await self.create_my_message(uname=self.me, message=message)
+        image = data['image']
+        # print('im re',image)
+        self.create_chat_message = await self.create_my_message(uname=self.me, message=message, image=image)
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message,
+                'message': message or None,
+                'image':image or None,
                 'uname':uname
             }
         )
@@ -48,15 +51,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self,event):
         message = event['message']
         uname = event['uname']
+        image = event['image']
+        # print('image',image)
+
         await self.send(text_data=json.dumps({
-            'message':message,
+            'message':message or None,
+            'image': image or None,
             'uname' : uname
         }))
     @database_sync_to_async
-    def create_my_message(self,uname,message):
+    def create_my_message(self,uname,message,image):
         o1 = User.objects.get(username=self.me)
         o2 = User.objects.get(username=self.other_user)
         my_msg = Person.objects.get_or_new(me=o1,other=o2)[0]
         print('ob', my_msg)
-        e = Message.objects.create(user=uname, message=message, person=my_msg)
+        e = Message.objects.create(user=uname, message=message, image_base64=image, person=my_msg)
         return print('msg created',e)

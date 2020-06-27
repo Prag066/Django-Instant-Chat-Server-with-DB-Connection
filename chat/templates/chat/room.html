@@ -44,7 +44,35 @@
                     {% for detail in my_messages %}
                         {% for msg in detail.message_set.all %}
                             {% if request.user.username == msg.user.username %}
-                                <div class="row outgoingMsg">
+                                {% if msg.message %}
+                                    <div class="row outgoingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                {{msg.message}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% elif msg.image_base64 %}
+                                    <div class="row outgoingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                <img src='{{ msg.image_base64 }}' alt="out with no image" height=200px width=280px>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <!--  -->
+                                <!-- <div class="row outgoingMsg">
                                     <div class="col-sm-12">
                                         <div class="userName">
                                             {{msg.user.username}}
@@ -55,10 +83,37 @@
                                             {{msg.message}}
                                         </div>
                                     </div>
-                                </div>
-<!--                            {{msg.message}} via {{msg.user.username}}-->
+                                </div> -->
+                                <!--  -->
                             {% else %}
-                                <div class="row incomingMsg">
+                                {% if msg.message %}
+                                    <div class="row incomingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                {{msg.message}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% elif msg.image_base64 %}
+                                    <div class="row incomingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                <img src='{{ msg.image_base64 }}' alt="inc with no image" height=200px width=280px>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <!-- <div class="row incomingMsg">
                                     <div class="col-sm-12">
                                         <div class="userName">
                                             {{msg.user.username}}
@@ -69,7 +124,7 @@
                                             {{msg.message}}
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
@@ -86,7 +141,7 @@
     </div>
     <input type="hidden" value="{{request.user}}" id="uname">
 
-
+    <input type="file" id="inputFileToLoad">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!--<script src="{% static 'js/emoji.js' %}"></script>-->
 
