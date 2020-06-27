@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Chat Room</title>
-    <!-- links   -->
-<!--    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>-->
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +38,6 @@
                     {{user_name}}
                 </div>
                 <div class=" chatMsgCont" id="chat-data">
-                    <!--  -->
                     {% for detail in my_messages %}
                         {% for msg in detail.message_set.all %}
                             {% if request.user.username == msg.user.username %}
@@ -71,20 +68,7 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                <!--  -->
-                                <!-- <div class="row outgoingMsg">
-                                    <div class="col-sm-12">
-                                        <div class="userName">
-                                            {{msg.user.username}}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="userMsg">
-                                            {{msg.message}}
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!--  -->
+                                
                             {% else %}
                                 {% if msg.message %}
                                     <div class="row incomingMsg">
@@ -113,22 +97,10 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                <!-- <div class="row incomingMsg">
-                                    <div class="col-sm-12">
-                                        <div class="userName">
-                                            {{msg.user.username}}
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="userMsg">
-                                            {{msg.message}}
-                                        </div>
-                                    </div>
-                                </div> -->
+                                
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
-                    <!--  -->
                 </div>
                 <div class=" inputCont">
                     <input type="text" class="inputText" placeholder="Enter your message" id="chat-message-input" />
