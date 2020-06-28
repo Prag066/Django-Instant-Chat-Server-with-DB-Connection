@@ -36,6 +36,7 @@
             <div class="col-sm-10 chatContRight">
                 <div class=" headerInfo">
                     {{user_name}}
+                    <a href="{% url 'logged_out' %}">logout</a>
                 </div>
                 <div class=" chatMsgCont" id="chat-data">
                     {% for detail in my_messages %}

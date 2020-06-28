@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Person,Message
 
 
+user_list = []
 def logged_in(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -12,10 +13,18 @@ def logged_in(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
+            user_list.append(user.username)
+            print('online',user_list)
             return redirect('/chat/')
 
     context = {}
+    
     return render(request,'login.html',context)
+
+def logged_out(request):
+    user_list.remove(str(request.user.username))
+    logout(request)
+    return redirect('/chat/login/')
 
 def index(request):
     my_users = User.objects.all()
