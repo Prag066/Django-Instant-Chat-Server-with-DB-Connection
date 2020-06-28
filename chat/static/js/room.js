@@ -27,9 +27,6 @@ chatSocket.onmessage = function(e) {
     const usernameInputDom = document.querySelector('#uname');
     const uname = usernameInputDom.value;
 
-    // const c = document.getElementById('chat-message-input');
-    // c.innerHTML = 'Typing';
-
     if(uname == data.uname){
         selectClass = "outgoingMsg";
     }
@@ -130,17 +127,10 @@ function submitMsg(){
             'uname' : uname
             }));
                 document.getElementById('inputFileToLoad').innerHTML = '';
+                // $('.emojionearea-editor img').remove();
         }
         fileReader.readAsDataURL(fileToLoad);
     }
-//        chatSocket.send(JSON.stringify({
-//        'message': message,
-//        'uname' : uname
-//        }));
-//        messageInputDom.value = '';
-//        $('.emojionearea-editor img').remove();
-
-//    }
 }
 
 
@@ -150,11 +140,3 @@ function mediabutton(){
 };
 
 
-// function changeText(){
-//     console.log('changeText');
-//     chatSocket.send(JSON.stringify({
-        
-//         'uname' : 'uname',
-//         'change':'typing..'
-//     }))
-// };
