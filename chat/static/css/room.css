@@ -95,3 +95,9 @@ text-overflow: ellipsis;
 .emojionearea-button{
     padding-right:55px;
 }
+
+.mediaBtn{
+    position: absolute;
+    margin-left: -80px;
+    margin-top: 15px;
+}

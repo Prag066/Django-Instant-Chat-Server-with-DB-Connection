@@ -103,7 +103,10 @@
                     {% endfor %}
                 </div>
                 <div class=" inputCont">
-                    <input type="text" class="inputText" placeholder="Enter your message" id="chat-message-input" />
+                    <input type="text" class="inputText" placeholder="Enter your message" id="chat-message-input" onchange="changeText()" onkeypress="changeText()" />
+                    
+                    <i class="mediaBtn fa fa-picture-o fa-lg" id="mediaBtn" onclick="mediabutton();"></i>
+                    
                     <div class="submitBtn" id="chat-message-submit" >
                         <i class="fa fas fa-paper-plane"></i>
                     </div>
@@ -112,8 +115,11 @@
         </div>
     </div>
     <input type="hidden" value="{{request.user}}" id="uname">
+    <input type="file" id="inputFileToLoad" style="display: none;">
+   
+    
 
-    <input type="file" id="inputFileToLoad">
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!--<script src="{% static 'js/emoji.js' %}"></script>-->
 

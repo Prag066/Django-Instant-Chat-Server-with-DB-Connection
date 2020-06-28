@@ -43,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'type': 'chat_message',
                 'message': message or None,
                 'image':image or None,
-                'uname':uname
+                'uname':uname,
             }
         )
 
@@ -57,7 +57,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message':message or None,
             'image': image or None,
-            'uname' : uname
+            'uname' : uname,
         }))
     @database_sync_to_async
     def create_my_message(self,uname,message,image):

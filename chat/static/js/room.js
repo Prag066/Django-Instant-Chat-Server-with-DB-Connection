@@ -23,8 +23,13 @@ const chatSocket = new WebSocket(
 chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
     let selectClass="";
+    
     const usernameInputDom = document.querySelector('#uname');
     const uname = usernameInputDom.value;
+
+    // const c = document.getElementById('chat-message-input');
+    // c.innerHTML = 'Typing';
+
     if(uname == data.uname){
         selectClass = "outgoingMsg";
     }
@@ -128,9 +133,6 @@ function submitMsg(){
         }
         fileReader.readAsDataURL(fileToLoad);
     }
-
-
-
 //        chatSocket.send(JSON.stringify({
 //        'message': message,
 //        'uname' : uname
@@ -141,28 +143,18 @@ function submitMsg(){
 //    }
 }
 
-//function encodeImageAsUrl(){
-//    const messageInputDom = document.querySelector('#chat-message-input');
-//    const message = messageInputDom.value;
-//
-//    const usernameInputDom = document.querySelector('#uname');
-//    const uname = usernameInputDom.value;
-//
-//    var filesSelected = document.getElementById("inputFileToLoad").files;
-//    if(filesSelected.length > 0){
-//        var fileToLoad = filesSelected[0];
-//        var fileReader = new FileReader();
-//        fileReader.onload = function(fileLoadedEvent){
-//            var srcData = fileLoadedEvent.target.result;
-////            console.log('src',srcData);
-//
-//        chatSocket.send(JSON.stringify({
-//            'image': srcData ,
-//            'message': '',
-//            'uname' : uname
-//            }));
-//        }
-//    }
-//    fileReader.readAsDataURL(fileToLoad);
-//}
 
+function mediabutton(){
+    var m = document.getElementById('inputFileToLoad');
+    m.click();
+};
+
+
+// function changeText(){
+//     console.log('changeText');
+//     chatSocket.send(JSON.stringify({
+        
+//         'uname' : 'uname',
+//         'change':'typing..'
+//     }))
+// };
