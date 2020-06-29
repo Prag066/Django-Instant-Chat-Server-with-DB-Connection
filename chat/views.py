@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from .models import Person,Message
 
 
+def RegisterUser(request):
+    context = {}
+    return render(request,'RegisterUser.html',context)
+
 user_list = []
 def logged_in(request):
     if request.method == "POST":
