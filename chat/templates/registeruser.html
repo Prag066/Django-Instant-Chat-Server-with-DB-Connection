@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <title>Register User</title>
+    <link rel="stylesheet" href="{% static 'css/registeruser.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="registration-page">
+        <div class="form">
+            <div class="register">
+                <div class="register-header">
+                    <h3>Registration</h3>
+                    <p>Please enter your detail to register.</p>
+                </div>
+            </div>
+
+            <form action="" method="POST" class="register-form">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="cpassword" placeholder="Confirm Password">
+                <button name="sub">register</button>
+                <p class="message">Already registered? <a href="{% url 'logged_in' %}">Login</a></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}
