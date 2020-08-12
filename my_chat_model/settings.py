@@ -112,6 +112,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL
+MEDIA_ROOT = os.path.join
+
 # Channels
 CHANNEL_LAYERS = {
     'default': {

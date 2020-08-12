@@ -1,18 +1,13 @@
+{% extends "base.html" %}
 {% load static %}
-<html>
-<head>
-    <meta charset="utf-8" />
+
+    
+{% block style %}
     <title>Chat Room</title>
-    <!-- links   -->
-<!--    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>-->
-
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!--    <link href="{% static 'css/emoji.css' %}" rel="stylesheet">-->
     <link href="{% static 'css/room.css' %}" rel="stylesheet">
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     {{ user_name|json_script:"user-name" }}
 
     <div class="container">
@@ -26,6 +21,7 @@
                         {% if request.user.username != user.username %}
                             <div class="userForChat">
                                 <div class="userItem">
+                                    <img src="{{ user.image.url }}" alt="{{user.image}}" style="width: 20px; height: 20px; display: inline; border-radius: 20%; ">
                                     <a href="{% url 'room' user_name=user.username %}">{{user}}</a>
                                 </div>
                                 <!-- <div class="previewItem">hi how are you...</div>  {{ value|truncatewords:2 }} -->
@@ -38,45 +34,78 @@
             <div class="col-sm-10 chatContRight">
                 <div class=" headerInfo">
                     {{user_name}}
+                    <a href="{% url 'logged_out' %}">logout</a>
                 </div>
                 <div class=" chatMsgCont" id="chat-data">
-                    <!--  -->
                     {% for detail in my_messages %}
                         {% for msg in detail.message_set.all %}
                             {% if request.user.username == msg.user.username %}
-                                <div class="row outgoingMsg">
-                                    <div class="col-sm-12">
-                                        <div class="userName">
-                                            {{msg.user.username}}
+                                {% if msg.message %}
+                                    <div class="row outgoingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                {{msg.message}}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="userMsg">
-                                            {{msg.message}}
+                                {% elif msg.image_base64 %}
+                                    <div class="row outgoingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                <img src='{{ msg.image_base64 }}' alt="out with no image" height=200px width=280px>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-<!--                            {{msg.message}} via {{msg.user.username}}-->
+                                {% endif %}
+                                
                             {% else %}
-                                <div class="row incomingMsg">
-                                    <div class="col-sm-12">
-                                        <div class="userName">
-                                            {{msg.user.username}}
+                                {% if msg.message %}
+                                    <div class="row incomingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                {{msg.message}}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="userMsg">
-                                            {{msg.message}}
+                                {% elif msg.image_base64 %}
+                                    <div class="row incomingMsg">
+                                        <div class="col-sm-12">
+                                            <div class="userName">
+                                                {{msg.user.username}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="userMsg">
+                                                <img src='{{ msg.image_base64 }}' alt="inc with no image" height=200px width=280px>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endif %}
+                                
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
-                    <!--  -->
                 </div>
                 <div class=" inputCont">
                     <input type="text" class="inputText" placeholder="Enter your message" id="chat-message-input" />
+                    
+                    <i class="mediaBtn fa fa-picture-o fa-lg" id="mediaBtn" onclick="mediabutton();"></i>
+                    
                     <div class="submitBtn" id="chat-message-submit" >
                         <i class="fa fas fa-paper-plane"></i>
                     </div>
@@ -85,11 +114,13 @@
         </div>
     </div>
     <input type="hidden" value="{{request.user}}" id="uname">
+    <input type="file" id="inputFileToLoad" style="display: none;">
+   
+    
 
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <!--<script src="{% static 'js/emoji.js' %}"></script>-->
-
 <script src="{% static 'js/room.js' %}"></script>
-</body>
-</html>
+
+{% endblock %}
