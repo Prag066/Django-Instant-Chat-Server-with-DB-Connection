@@ -22,6 +22,7 @@
                         {% if request.user.username != user.username %}
                             <div class="userForChat">
                                 <div class="userItem">
+                                    <img src="{{ user.image.url }}" alt="{{user.image}}" style="width: 20px; height: 20px; display: inline; border-radius: 20%; ">
                                     <a href="{% url 'room' user_name=user.username %}">{{user}}</a>
                                 </div>
                                 <!-- <div class="previewItem">hi how are you...</div>  {{ value|truncatewords:2 }} -->
