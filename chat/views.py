@@ -1,21 +1,20 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .models import Person,Message
+from .models import Person,Message,CustomUser
 
-from django.contrib.auth.models import User
-
+User = get_user_model()
 
 def registeruser(request):
     if request.method == "POST":
-        username = request.POST['username']
+        username = request.POST['username'] 
         email = request.POST['email']
+        image = request.FILES.get('image',None)
         password = request.POST['password']
         cpassword = request.POST['cpassword']
         if username and password and cpassword:
             if password == cpassword:
-                newUser = User.objects.create_user(username=username,email=email,password=password)
+                newUser = User.objects.create_user(username=username,email=email,image=image,password=password)
                 return redirect('/chat/login/')
             else:
                 return redirect('/chat/registeruser/')
